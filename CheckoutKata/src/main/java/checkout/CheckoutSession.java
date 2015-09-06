@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import checkout.discounts.DiscountProviderKata;
 import checkout.discounts.IDiscount;
 import checkout.discounts.IDiscountProvider;
+import checkout.pricing.IPriceProvider;
 
 public class CheckoutSession {
     private final Map<String, List<Item>> scannedItems;
@@ -15,23 +15,28 @@ public class CheckoutSession {
     private final List<IDiscount> discounts;
 
     /**
-     * In future should be Autowired
+     * In future this should be Autowired and the data should come from a database,
      */
-    private IDiscountProvider discountProvider = new DiscountProviderKata();
+    private final IPriceProvider priceProvider;
 
-    public CheckoutSession() {
+    /**
+     * Both IDiscount and IPrice Provider should be autowired by constructor
+     */
+    public CheckoutSession(IDiscountProvider discountProvider, IPriceProvider priceProvider) {
         scannedItems = new HashMap<String, List<Item>>();
         discounts = new ArrayList<IDiscount>();
+        this.priceProvider = priceProvider;
 
         discounts.addAll(discountProvider.getAllDiscounts());
     }
 
-    public void scanItem(Item newItem) {
-        List<Item> items = scannedItems.get(newItem.getSKU());
-
+    public void scanItem(String itemSKU) {
+        List<Item> items = scannedItems.get(itemSKU);
+        Item newItem = new Item(itemSKU, priceProvider.getPrice(itemSKU));
+        
         if (items == null) {
             items = new ArrayList<Item>();
-            scannedItems.put(newItem.getSKU(), items);
+            scannedItems.put(itemSKU, items);
         }
 
         items.add(newItem);

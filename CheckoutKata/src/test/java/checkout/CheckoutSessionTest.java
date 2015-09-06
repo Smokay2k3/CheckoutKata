@@ -6,13 +6,16 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
+import checkout.discounts.DiscountProviderKata;
+import checkout.pricing.PriceProviderKata;
+
 public class CheckoutSessionTest {
 
     private CheckoutSession subject;
 
     @Before
     public void setup() {
-        subject = new CheckoutSession();
+        subject = new CheckoutSession(new DiscountProviderKata(), new PriceProviderKata());
     }
 
     @Test
@@ -27,7 +30,7 @@ public class CheckoutSessionTest {
     @Test
     public void getTotalReturns5000() {
         // Given
-        subject.scanItem(new Item("A", 5000));
+        subject.scanItem("A");
 
         // When
         long result = subject.getTotal();
@@ -39,7 +42,7 @@ public class CheckoutSessionTest {
     @Test
     public void getTotalReturns3000() {
         // Given
-        subject.scanItem(new Item("B", 3000));
+        subject.scanItem("B");
 
         // When
         long result = subject.getTotal();
@@ -51,7 +54,7 @@ public class CheckoutSessionTest {
     @Test
     public void getTotalReturns2000() {
         // Given
-        subject.scanItem(new Item("C", 2000));
+        subject.scanItem("C");
 
         // When
         long result = subject.getTotal();
@@ -63,7 +66,7 @@ public class CheckoutSessionTest {
     @Test
     public void getTotalReturns1500() {
         // Given
-        subject.scanItem(new Item("D", 1500));
+        subject.scanItem("D");
 
         // When
         long result = subject.getTotal();
@@ -75,10 +78,10 @@ public class CheckoutSessionTest {
     @Test
     public void getTotalReturns11500() {
         // Given
-        subject.scanItem(new Item("A", 5000));
-        subject.scanItem(new Item("B", 3000));
-        subject.scanItem(new Item("C", 2000));
-        subject.scanItem(new Item("D", 1500));
+        subject.scanItem("A");
+        subject.scanItem("B");
+        subject.scanItem("C");
+        subject.scanItem("D");
 
         // When
         long result = subject.getTotal();
@@ -90,9 +93,9 @@ public class CheckoutSessionTest {
     @Test
     public void getTotalReturns13000() {
         // Given
-        subject.scanItem(new Item("A", 5000));
-        subject.scanItem(new Item("A", 5000));
-        subject.scanItem(new Item("A", 5000));
+        subject.scanItem("A");
+        subject.scanItem("A");
+        subject.scanItem("A");
 
         // When
         long result = subject.getTotal();
@@ -104,8 +107,8 @@ public class CheckoutSessionTest {
     @Test
     public void getTotalReturns4500() {
         // Given
-        subject.scanItem(new Item("B", 3000));
-        subject.scanItem(new Item("B", 3000));
+        subject.scanItem("B");
+        subject.scanItem("B");
 
         // When
         long result = subject.getTotal();
@@ -117,9 +120,9 @@ public class CheckoutSessionTest {
     @Test
     public void getTotalReturns9500() {
         // Given
-        subject.scanItem(new Item("B", 3000));
-        subject.scanItem(new Item("A", 5000));
-        subject.scanItem(new Item("B", 3000));
+        subject.scanItem("B");
+        subject.scanItem("A");
+        subject.scanItem("B");
 
         // When
         long result = subject.getTotal();
@@ -131,12 +134,12 @@ public class CheckoutSessionTest {
     @Test
     public void getTotalReturns19000() {
         // Given
-        subject.scanItem(new Item("A", 5000));
-        subject.scanItem(new Item("B", 3000));
-        subject.scanItem(new Item("A", 5000));
-        subject.scanItem(new Item("B", 3000));
-        subject.scanItem(new Item("D", 1500));
-        subject.scanItem(new Item("A", 5000));
+        subject.scanItem("A");
+        subject.scanItem("B");
+        subject.scanItem("A");
+        subject.scanItem("B");
+        subject.scanItem("D");
+        subject.scanItem("A");
 
         // When
         long result = subject.getTotal();
