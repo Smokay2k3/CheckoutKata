@@ -87,4 +87,62 @@ public class CheckoutSessionTest {
         assertThat(result, is(11500l));
     }
 
+    @Test
+    public void getTotalReturns13000() {
+        // Given
+        subject.scanItem(new Item("A", 5000));
+        subject.scanItem(new Item("A", 5000));
+        subject.scanItem(new Item("A", 5000));
+
+        // When
+        long result = subject.getTotal();
+
+        // Then
+        assertThat(result, is(13000l));
+    }
+
+    @Test
+    public void getTotalReturns4500() {
+        // Given
+        subject.scanItem(new Item("B", 3000));
+        subject.scanItem(new Item("B", 3000));
+
+        // When
+        long result = subject.getTotal();
+
+        // Then
+        assertThat(result, is(4500l));
+    }
+
+    @Test
+    public void getTotalReturns9500() {
+        // Given
+        subject.scanItem(new Item("B", 3000));
+        subject.scanItem(new Item("A", 5000));
+        subject.scanItem(new Item("B", 3000));
+
+        // When
+        long result = subject.getTotal();
+
+        // Then
+        assertThat(result, is(9500l));
+    }
+
+    @Test
+    public void getTotalReturns19000() {
+        // Given
+        subject.scanItem(new Item("A", 5000));
+        subject.scanItem(new Item("B", 3000));
+        subject.scanItem(new Item("A", 5000));
+        subject.scanItem(new Item("B", 3000));
+        subject.scanItem(new Item("D", 1500));
+        subject.scanItem(new Item("A", 5000));
+
+        // When
+        long result = subject.getTotal();
+
+        // Then
+        assertThat(result, is(19000l));
+    }
+
 }
