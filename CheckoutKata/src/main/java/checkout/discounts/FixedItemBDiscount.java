@@ -1,28 +1,20 @@
 package checkout.discounts;
 
-import java.util.List;
-import java.util.Map;
-
-import checkout.Item;
-
-public class FixedItemBDiscount implements IDiscount {
-    private static final long ITEM_B_DISCOUNT = -1500;
+public class FixedItemBDiscount extends AbstractQuantityDiscount {
 
     @Override
-    public long applyDiscount(Map<String, List<Item>> items) {
-        List<Item> scannedItemBGroup = items.get("B");
+    public String getApplicableSKU() {
+        return "B";
+    }
 
-        if (scannedItemBGroup != null) {
-            int count = scannedItemBGroup.size();
-            int mod = count % 2;
-            if (mod > 0) {
-                count -= mod;
-            }
+    @Override
+    public long getDiscount() {
+        return -1500l;
+    }
 
-            return ((count / 2) * ITEM_B_DISCOUNT);
-        }
-
-        return 0;
+    @Override
+    protected int getItemCount() {
+        return 2;
     }
 
 }

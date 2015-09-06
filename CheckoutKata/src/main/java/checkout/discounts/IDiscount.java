@@ -9,4 +9,8 @@ public interface IDiscount {
 
     long applyDiscount(Map<String, List<Item>> items);
 
+    String getApplicableSKU();
+
+    long getDiscount();
+
 }

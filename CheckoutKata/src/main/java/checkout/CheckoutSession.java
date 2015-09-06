@@ -5,25 +5,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import checkout.discounts.FixedItemADiscount;
-import checkout.discounts.FixedItemBDiscount;
+import checkout.discounts.DiscountProviderKata;
 import checkout.discounts.IDiscount;
+import checkout.discounts.IDiscountProvider;
 
 public class CheckoutSession {
     private final Map<String, List<Item>> scannedItems;
 
     private final List<IDiscount> discounts;
 
+    /**
+     * In future should be Autowired
+     */
+    private IDiscountProvider discountProvider = new DiscountProviderKata();
+
     public CheckoutSession() {
         scannedItems = new HashMap<String, List<Item>>();
         discounts = new ArrayList<IDiscount>();
 
-        /*
-         * For now we have these hardcoded, but the end goal
-         * would be for them to be read in from a database and generated
-         */
-        discounts.add(new FixedItemADiscount());
-        discounts.add(new FixedItemBDiscount());
+        discounts.addAll(discountProvider.getAllDiscounts());
     }
 
     public void scanItem(Item newItem) {
